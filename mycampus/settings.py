@@ -30,6 +30,9 @@ INSTALLED_APPS = [
 
     # Installed Apps
     'rest_framework',
+
+    # Project Apps
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -130,3 +133,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+
+
+AUTH_USER_MODEL = "user.User"
