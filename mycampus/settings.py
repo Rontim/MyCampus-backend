@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     # Project Apps
     'user',
     'club',
-    'topic'
+    'topic',
+    'notifications'
 ]
 
 MIDDLEWARE = [
