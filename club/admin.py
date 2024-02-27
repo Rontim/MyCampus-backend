@@ -4,5 +4,5 @@ from club.models import Club
 
 @admin.register(Club)
 class ClubAdmin(admin.ModelAdmin):
-    list_display = '__all__'
-    search_fields = ('club_name')
+    list_display = ('club_name',)
+    search_fields = ('club_name',)
