@@ -1,7 +1,8 @@
 
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-
+from club.models import Club
+from topic.models import Topic
 
 class UserManager(BaseUserManager):
     def create_user(self, email, username, first_name, last_name, password=None):
@@ -51,6 +52,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    interest = models.ManyToManyField(Club)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']

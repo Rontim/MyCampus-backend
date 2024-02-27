@@ -13,3 +13,6 @@ class Topic (models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.topic_name)
         super().save(*args, **kwargs)
+
+    class Meta:
+        db_table = "Interest/Topic"
