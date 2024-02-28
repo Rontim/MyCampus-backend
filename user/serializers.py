@@ -1,5 +1,9 @@
 from rest_framework import serializers
-from .models import User
+from interactions.models import ClubInteraction, UserInteraction
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,11 +12,20 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
+    following = serializers.SerializerMethodField()
+    clubs = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ('username', "email", 'name')
+        fields = ('username', "email", 'first_name',
+                  'last_name', 'followers', 'following', 'clubs')
 
-    
-    def get_name(self, obj):
-        return f'{obj.first_name} {obj.last_name}'
+    def get_followers(self, obj):
+        return UserInteraction.objects.filter(follow_user=obj).count()
+
+    def get_following(self, obj):
+        return UserInteraction.objects.filter(user=obj).count()
+
+    def get_clubs(self, obj):
+        return ClubInteraction.objects.filter(user=obj).count()

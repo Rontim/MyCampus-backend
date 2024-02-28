@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/auth/', include('djoser.urls.jwt')),
     path('api/v1/user/', include('user.urls')),
+    path('api/v1/interaction/', include('interactions.urls')),
     path('api/v2/', include('djoser.urls')),
     path('api/v1/club/', include('club.urls')),
     path('api/v1/topic/', include('topic.urls')),

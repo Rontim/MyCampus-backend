@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'user',
     'club',
     'topic',
-    'notifications'
+    'notifications',
+    'interactions',
 ]
 
 MIDDLEWARE = [
@@ -149,10 +150,10 @@ DJOSER = {
     'USER_ID_FIELD': 'username',
     'LOGIN_FIELD': 'email',
     'USER_CREATE_PASSWORD_RETYPE': True,
-
     'SERIALIZERS': {
         'user_create': 'user.serializers.UserCreateSerializer',
-        'user': 'user.serializers.UserCreateSerializer',
+        'user': 'user.serializers.UserSerializer',
+        'current_user': 'user.serializers.UserSerializer',
     },
 }
 
