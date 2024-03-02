@@ -73,20 +73,20 @@ class FollowClub(APIView):
     '''
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_club(self, club_id):
+    def get_club(self, club_slug):
         try:
-            return Club.objects.get(id=club_id)
+            return Club.objects.get(slug=club_slug)
         except Club.DoesNotExist:
             return NotFound
 
     def post(self, request):
         user = request.user
-        club_id = request.data.get('club_id')
-        club = self.get_club(club_id)
+        club_slug = request.data.get('club_slug')
+        club = self.get_club(club_slug)
 
-        serializer = ClubInteractionSerializer({
-            'user': user,
-            'club_id': club
+        serializer = ClubInteractionSerializer(data={
+            'user': user.pk,
+            'club_id': club.pk  # type: ignore
         })
 
         serializer.is_valid(raise_exception=True)

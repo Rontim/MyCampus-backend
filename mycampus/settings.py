@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pathlib import Path
 import dotenv
 import os
@@ -154,6 +155,8 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
     'USER_ID_FIELD': 'username',
     'USER_ID_FIELD_CLAIM': 'username',
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=5),
 }
 
 DJOSER = {
