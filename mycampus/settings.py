@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'notifications',
     'interactions',
     'images',
+    'blog',
 ]
 
 MIDDLEWARE = [
