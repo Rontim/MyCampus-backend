@@ -1,3 +1,4 @@
+from django import db
 from django.db import models
 from club.models import Club
 from django.contrib.auth import get_user_model
@@ -26,6 +27,7 @@ class ClubInteraction(models.Model):
         return attrs
 
     class Meta:
+        db_table = 'Club Interaction'
         constraints = [
             models.constraints.UniqueConstraint(
                 fields=['user', 'club_id'],
@@ -41,6 +43,7 @@ class UserInteraction(models.Model):
     follow_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
+        db_table = 'User Interaction'
         constraints = [
             models.constraints.UniqueConstraint(
                 fields=['user', 'follow_user'],

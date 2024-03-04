@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from club.models import Club
 from topic.models import Topic
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, username, first_name, last_name, password=None):
         if not email:
@@ -67,3 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
+
+    class Meta:
+        db_table = 'User'
+        verbose_name_plural = ('Users')
