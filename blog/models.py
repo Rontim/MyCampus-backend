@@ -2,6 +2,7 @@ from os import name
 from re import T
 from tabnanny import verbose
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.contrib.auth import get_user_model
 from club.models import Club
 import topic
@@ -17,6 +18,10 @@ class Blog(models.Model):
         upload_to='blog/thumbnails/', null=True, blank=True)
     content = models.TextField()
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     class Meta:
         abstract = True
