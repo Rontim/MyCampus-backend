@@ -18,7 +18,7 @@ class FollowUser(APIView):
     '''
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_user(self, username):
+    def get_user(self, username):  # type: ignore
         try:
             return User.objects.get(username=username)
         except User.DoesNotExist:
@@ -33,13 +33,19 @@ class FollowUser(APIView):
         following_user = self.get_user(following_user_id)
 
         serializer = UserInteractionSerializer(data={
-            'user': user,
-            'follow_user': following_user
+            'user': user.pk,
+            'follow_user': following_user.pk  # type: ignore
         })
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({'message': 'You are now following this user'}, status=status.HTTP_201_CREATED)
+
+        response = {
+
+            'message': f'You are now following\
+                {following_user.get_username()}'  # type:ignore
+        }
+        return Response(response, status=status.HTTP_201_CREATED)
 
 
 class UnfollowUser(APIView):
@@ -61,7 +67,7 @@ class UnfollowUser(APIView):
             interaction = UserInteraction.objects.get(
                 user=user, follow_user=followed_user)
         except UserInteraction.DoesNotExist:
-            return Response({'error': 'You are not following this user'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'You are now not following this user'}, status=status.HTTP_400_BAD_REQUEST)
 
         interaction.delete()
         return Response({'message': 'You have unfollowed this user'}, status=status.HTTP_200_OK)
