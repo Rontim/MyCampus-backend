@@ -1,7 +1,6 @@
 
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-from club.models import Club
 from topic.models import Topic
 
 
@@ -53,7 +52,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    interest = models.ManyToManyField(Club)
+    interest = models.ManyToManyField(Topic, related_name='interests')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
@@ -68,6 +67,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
+
+    def get_username(self) -> str:
+        return self.username
 
     class Meta:
         db_table = 'User'
