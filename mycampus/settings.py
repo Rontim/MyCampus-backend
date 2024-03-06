@@ -17,8 +17,7 @@ SECRET_KEY = getenv('DJANGO_SECRET_KEY', get_random_secret_key())
 
 DEBUG = getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = getenv('DJANGO_ALLOWED_HOSTS',
-                       '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = ['*']
 
 
 DOMAIN = 'http://localhost:8000' if DEVELOPMENT_MODE else getenv('DOMAIN')
@@ -59,11 +58,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3030',
-    'http://localhost:5173'
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 ROOT_URLCONF = 'mycampus.urls'
