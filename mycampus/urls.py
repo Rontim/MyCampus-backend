@@ -14,4 +14,5 @@ urlpatterns = [
     path('api/v1/image/', include('images.urls')),
     path('api/v1/blog/', include('blog.urls')),
     path('api/v1/likes/', include('likes.urls')),
+    path('api/v1/comment/', include('comments.urls')),
 ] + static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
