@@ -1,47 +1,47 @@
 [
-    {
-        "model": "club.club",
-        "pk": 1,
-        "fields": {
-            "slug": "rotaract",
-            "club_name": "Rotaract",
-            "description": "Rotaract clubs bring together people ages 18 and older to exchange ideas with leaders in the community, develop leadership and professional skills, and have fun through service. In communities worldwide, Rotary and Rotaract members work side by side to take action through service."
-        }
-    },
-    {
-        "model": "club.club",
-        "pk": 2,
-        "fields": {
-            "slug": "drama-club",
-            "club_name": "Drama Club",
-            "description": "The Drama Club provides a platform for students interested in theater and performing arts. Members collaborate on productions, participate in acting workshops, and organize theater-related events for the campus community."
-        }
-    },
-    {
-        "model": "club.club",
-        "pk": 3,
-        "fields": {
-            "slug": "debate-society",
-            "club_name": "Debate Society",
-            "description": "The Debate Society provides a forum for students to engage in formal debates, critical thinking exercises, and public speaking practice. Members discuss a wide range of topics, refine their argumentation skills, and compete in intercollegiate debates."
-        }
-    },
-    {
-        "model": "club.club",
-        "pk": 4,
-        "fields": {
-            "slug": "stem-enthusiasts-society",
-            "club_name": "STEM Enthusiasts Society",
-            "description": "This club brings together students passionate about science, technology, engineering, and mathematics (STEM) fields. Members engage in discussions, hands-on projects, and networking opportunities related to their respective disciplines."
-        }
-    },
-    {
-        "model": "club.club",
-        "pk": 5,
-        "fields": {
-            "slug": "aisec",
-            "club_name": "AISEC",
-            "description": "AIESEC is an international \"youth-run\" and led, non-governmental and not-for-profit organization that provides young people with business development internships. The organization focuses on empowering young people to make a progressive social impact."
-        }
-    }
+{
+  "model": "club.club",
+  "pk": 1,
+  "fields": {
+    "slug": "rotaract",
+    "club_name": "Rotaract",
+    "description": "Rotaract clubs bring together people ages 18 and older to exchange ideas with leaders in the community, develop leadership and professional skills, and have fun through service. In communities worldwide, Rotary and Rotaract members work side by side to take action through service."
+  }
+},
+{
+  "model": "club.club",
+  "pk": 2,
+  "fields": {
+    "slug": "drama-club",
+    "club_name": "Drama Club",
+    "description": "The Drama Club provides a platform for students interested in theater and performing arts. Members collaborate on productions, participate in acting workshops, and organize theater-related events for the campus community."
+  }
+},
+{
+  "model": "club.club",
+  "pk": 3,
+  "fields": {
+    "slug": "debate-society",
+    "club_name": "Debate Society",
+    "description": "The Debate Society provides a forum for students to engage in formal debates, critical thinking exercises, and public speaking practice. Members discuss a wide range of topics, refine their argumentation skills, and compete in intercollegiate debates."
+  }
+},
+{
+  "model": "club.club",
+  "pk": 4,
+  "fields": {
+    "slug": "stem-enthusiasts-society",
+    "club_name": "STEM Enthusiasts Society",
+    "description": "This club brings together students passionate about science, technology, engineering, and mathematics (STEM) fields. Members engage in discussions, hands-on projects, and networking opportunities related to their respective disciplines."
+  }
+},
+{
+  "model": "club.club",
+  "pk": 5,
+  "fields": {
+    "slug": "aisec",
+    "club_name": "AISEC",
+    "description": "AIESEC is an international \"youth-run\" and led, non-governmental and not-for-profit organization that provides young people with business development internships. The organization focuses on empowering young people to make a progressive social impact."
+  }
+}
 ]

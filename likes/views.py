@@ -4,60 +4,40 @@ from rest_framework import status
 from rest_framework.exceptions import NotFound
 from django.shortcuts import get_object_or_404
 
-from blog.models import UserBlog, ClubBlog
-from .models import ClubBlogLike, UserBlogLike
+from blog.models import Blog
+from .models import BlogLike
 
-from .serializers import ClubBlogLikeSerializer, UserBlogLikeSerializer
-from blog.serializers import ClubBlog, UserBlog
+from .serializers import BlogLikeSerializer
+from blog.serializers import BlogCreateRetrieveSerializer, BlogListingSerializer
 
 
 class Like(APIView):
-    def get_clubblog(self, slug):
+    def get_blog(self, slug):
         try:
-            blog = ClubBlog.objects.get(slug=slug)
-        except ClubBlog.DoesNotExist:
+            blog = Blog.objects.get(slug=slug)
+        except Blog.DoesNotExist:
             raise NotFound
-
-    def get_userblog(self, slug):
-        try:
-            blog = UserBlog.objects.get(slug=slug)
-        except UserBlog.DoesNotExist:
-            raise NotFound
+        return blog
 
     def post(self, request, slug):
-        print(slug)
-        blog_type = request.data.get('author_type')
+        blog = self.get_blog(slug=slug)
+        user = request.user
 
-        blog = get_object_or_404(UserBlog, slug=slug)
+        serializer = BlogLikeSerializer(data={
+            'blog': blog.slug,
+            'user': user.username
+        })
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
-        print(blog)
-
-        if blog_type == 'user' and blog:
-            like = UserBlogLike(user=request.user, blog=blog)
-            like.save()
-            return Response({'success': f'You have successfully liked this blog'})
-
-        return Response({"detail": "failed to like this blog"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'success': f'You have successfully liked {blog.title}'})
 
 
 class Unlike(APIView):
-    def get_clubblog_like(self, slug, user):
-        try:
-            like = ClubBlogLike.objects.get(user=user.username, blog=slug)
-        except ClubBlogLike.DoesNotExist:
-            return None
-
-    def get_userblog_like(self, slug, user):
-        try:
-            like = UserBlogLike.objects.get(user=user.username, blog=slug)
-        except UserBlogLike.DoesNotExist:
-            return None
-
     def get_like(self, slug, user):
-        like = self.get_clubblog_like(
-            slug=slug, user=user) or self.get_userblog_like(slug=slug, user=user)
-        if not like:
-            return NotFound
+        blog = get_object_or_404(Blog, slug=slug)
+        like = get_object_or_404(BlogLike, blog=blog, user=user)
+
         return like
 
     def post(self, request, slug):

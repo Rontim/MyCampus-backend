@@ -12,48 +12,31 @@ User = get_user_model()
 
 
 class Blog(models.Model):
+    AUTHOR_TYPE_CHOICES = (
+        ('user', 'User'),
+        ('club', 'Club'),
+    )
+
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, null=True, blank=True)
     thumbnail = models.ImageField(
         upload_to='blog/thumbnails/', null=True, blank=True)
     content = models.TextField()
     updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    author_type = models.CharField(
+        max_length=20, choices=AUTHOR_TYPE_CHOICES, default='user')
+    author_user = models.ForeignKey(
+        User, to_field='username', on_delete=models.CASCADE, related_name='user_blogs', null=True, blank=True)
+    author_club = models.ForeignKey(
+        Club, to_field='slug', on_delete=models.CASCADE, related_name='club_blogs', null=True, blank=True)
+    topics = models.ManyToManyField(Topic, related_name='blogs', blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
     class Meta:
-        abstract = True
-
-
-class UserBlog(Blog):
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name=f'blogs_{User.__name__.lower()}', name='author')
-    topics = models.ManyToManyField(
-        Topic, related_name=f'user_blogs_{Topic.__name__.lower()}', blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    author_type = models.CharField(max_length=20, default='user')
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        db_table = 'User Blog'
-        verbose_name_plural = ('User Blogs')
-
-
-class ClubBlog(Blog):
-    author = models.ForeignKey(
-        Club, on_delete=models.CASCADE, related_name=f'blogs_{Club.__name__.lower()}')
-    topics = models.ManyToManyField(
-        Topic, related_name=f'club_blogs_{Topic.__name__.lower()}')
-    created_at = models.DateTimeField(auto_now_add=True)
-    author_type = models.CharField(max_length=20, default='club')
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        db_table = 'Club Blog'
-        verbose_name_plural = ('Club Blogs')
+        verbose_name = 'Blog'
+        verbose_name_plural = 'Blogs'
+        db_table = 'Blog'

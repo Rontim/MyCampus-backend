@@ -1,0 +1,124 @@
+[
+{
+  "model": "user.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$OzimNgK0f0poDl41IZ9gC0$aW/3R1jLf8A2yQQWGQfXQZZ4t7BJvS3rIxI+q0GTPOw=",
+    "last_login": null,
+    "email": "esthermugure@gmail.com",
+    "username": "essy",
+    "first_name": "Esther",
+    "last_name": "Mugure'",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "created_at": "2024-03-06T11:33:27.692Z",
+    "updated_at": "2024-03-06T11:33:27.693Z",
+    "groups": [],
+    "user_permissions": [],
+    "interest": []
+  }
+},
+{
+  "model": "user.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$n8v8KVPJDOxSdoQw0YVd6t$9nlixu8O+wmFyn09jMNju6cFP+4ZaY55uSL0XHyxg1A=",
+    "last_login": null,
+    "email": "rongitonga@gmail.com",
+    "username": "gitonga",
+    "first_name": "Ron",
+    "last_name": "Gitonga'",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "created_at": "2024-03-06T11:33:55.644Z",
+    "updated_at": "2024-03-06T11:36:39.244Z",
+    "groups": [],
+    "user_permissions": [],
+    "interest": [
+      1
+    ]
+  }
+},
+{
+  "model": "user.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$pgYVUX6z4Gd4HIgBzdIuZ4$W/yarF80cmoXfDpDMmWc2Ye0ieV2H7W0GNGfnUQHK4Y=",
+    "last_login": null,
+    "email": "glenomondi@gmail.com",
+    "username": "glen_om",
+    "first_name": "Glen",
+    "last_name": "Omondi'",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "created_at": "2024-03-06T11:34:23.808Z",
+    "updated_at": "2024-03-06T11:34:23.808Z",
+    "groups": [],
+    "user_permissions": [],
+    "interest": []
+  }
+},
+{
+  "model": "user.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$EnbDsxeRe9JkY8DnUYNGLS$UwfAVRn946e8jOXV54O3ummmNarw0YFh34zqFb5D1TM=",
+    "last_login": null,
+    "email": "valmamucera@gmail.com",
+    "username": "val",
+    "first_name": "Valma",
+    "last_name": "Mucera'",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "created_at": "2024-03-06T11:34:45.633Z",
+    "updated_at": "2024-03-06T11:34:45.633Z",
+    "groups": [],
+    "user_permissions": [],
+    "interest": []
+  }
+},
+{
+  "model": "user.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$RSnRHfG6X7TW1EjzsBQ4Ex$z4Tq5UBQiPejEsxeiTJMomdW+Zw/3oZO30xjqxpZ4zg=",
+    "last_login": null,
+    "email": "ivymuthoni@gmail.com",
+    "username": "soni",
+    "first_name": "Ivy",
+    "last_name": "Muthoni'",
+    "is_active": true,
+    "is_staff": false,
+    "is_superuser": false,
+    "created_at": "2024-03-06T11:35:09.322Z",
+    "updated_at": "2024-03-06T11:35:09.322Z",
+    "groups": [],
+    "user_permissions": [],
+    "interest": []
+  }
+},
+{
+  "model": "user.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$4RjkvXkBXZTiHo4jKIj0eX$1nNa/0ykCCXZePixBfSUsQoyT6TQ/5FcH3H22paO9mE=",
+    "last_login": null,
+    "email": "admin@mycampus.com",
+    "username": "admin001",
+    "first_name": "Admin",
+    "last_name": "Ron",
+    "is_active": true,
+    "is_staff": true,
+    "is_superuser": true,
+    "created_at": "2024-03-06T11:45:43.656Z",
+    "updated_at": "2024-03-06T11:45:43.823Z",
+    "groups": [],
+    "user_permissions": [],
+    "interest": []
+  }
+}
+]
