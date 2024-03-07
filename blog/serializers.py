@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from topic.models import Topic
 from .models import UserBlog, ClubBlog
-from topic.serializers import TopicSerializer
+from topic.serializers import TopicSerializer, UserInterestSerializer
 
 
 class UserBlogSerializer(serializers.ModelSerializer):
@@ -35,8 +35,8 @@ class UserBlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserBlog
         fields = ['id', 'title', 'slug', 'thumbnail',
-                  'content', 'topics', 'updated_at', 'created_at', 'author']
-        read_only_fields = ['id', 'updated_at', 'created_at']
+                  'content', 'topics', 'updated_at', 'created_at', 'author', 'author_type']
+        read_only_fields = ['id', 'updated_at', 'created_at', 'author_type']
 
 
 class ClubBlogSerializer(serializers.ModelSerializer):
@@ -57,5 +57,21 @@ class ClubBlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubBlog
         fields = ['id', 'title', 'slug', 'thumbnail',
-                  'content', 'topics', 'updated_at', 'created_at']
-        read_only_fields = ['id', 'updated_at', 'created_at']
+                  'content', 'topics', 'updated_at', 'created_at', 'author_type']
+        read_only_fields = ['id', 'updated_at', 'created_at', 'author_type']
+
+
+class ClubBlogsSerializer(serializers.ModelSerializer):
+    topics = UserInterestSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ClubBlog
+        fields = ['title', 'slug', 'thumbnail', 'topics', 'author_type']
+
+
+class UserBlogsSerializer(serializers.ModelSerializer):
+    topics = UserInterestSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = UserBlog
+        fields = ['title', 'slug', 'thumbnail', 'topics', 'author_type']

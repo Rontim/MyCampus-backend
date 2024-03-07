@@ -33,6 +33,7 @@ class UserBlog(Blog):
     topics = models.ManyToManyField(
         Topic, related_name=f'user_blogs_{Topic.__name__.lower()}', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    author_type = models.CharField(max_length=20, default='user')
 
     def __str__(self):
         return self.title
@@ -48,6 +49,7 @@ class ClubBlog(Blog):
     topics = models.ManyToManyField(
         Topic, related_name=f'club_blogs_{Topic.__name__.lower()}')
     created_at = models.DateTimeField(auto_now_add=True)
+    author_type = models.CharField(max_length=20, default='club')
 
     def __str__(self):
         return self.title
