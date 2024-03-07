@@ -22,7 +22,6 @@ class BlogCreateRetrieveSerializer(serializers.ModelSerializer):
         return representation
 
     def create(self, validated_data):
-        print(validated_data)
         topics_data = validated_data.pop('topics', [])
 
         blog = Blog.objects.create(**validated_data)

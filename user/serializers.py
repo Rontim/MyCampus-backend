@@ -1,3 +1,4 @@
+from os import read
 from rest_framework import serializers
 from interactions.models import ClubInteraction, UserInteraction
 from django.contrib.auth import get_user_model
@@ -32,3 +33,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_clubs(self, obj):
         return ClubInteraction.objects.filter(user=obj).count()
+
+
+class MentionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username']
+        read_only_fields = ['username']
