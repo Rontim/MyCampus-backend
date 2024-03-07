@@ -8,9 +8,7 @@ from .serializers import CommentSerializer, ReplySerializer, CommentListSerializ
 from blog.models import Blog
 from django.contrib.auth import get_user_model
 
-
 User = get_user_model()
-
 
 class CommentAPIView(APIView):
     def get_blog(self, slug):

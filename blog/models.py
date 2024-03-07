@@ -36,8 +36,10 @@ class Blog(models.Model):
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+
     def __str__(self) -> str:
         return f'Title: {self.title}\nAuthor: {self.author_user if self.author_user else self.author_club}'
+
 
     class Meta:
         verbose_name = 'Blog'

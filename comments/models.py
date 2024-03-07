@@ -8,9 +8,7 @@ import uuid
 def generate_uuid():
     return uuid.uuid4().hex
 
-
 User = get_user_model()
-
 
 class BlogComment(models.Model):
     unique_id = models.CharField(
@@ -49,3 +47,4 @@ class ReplyComment(models.Model):
 
     def __str__(self):
         return f'{self.replier} replied to {self.comment.commentor}\'s comment at {self.created_at}'
+

@@ -22,8 +22,6 @@ class BlogCreateRetrieveSerializer(serializers.ModelSerializer):
         return representation
 
     def create(self, validated_data):
-        print(validated_data)
-
         topics_data = validated_data.pop('topics', [])
 
         blog = Blog.objects.create(**validated_data)
@@ -54,7 +52,6 @@ class BlogListingSerializer(serializers.ModelSerializer):
                   'topics', 'author_type', 'author']
 
     def get_author(self, instance):
-        print(instance)
         if instance.author_type == 'user':
             return instance.author_user.username
         return instance.author_club.club_name
