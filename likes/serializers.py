@@ -1,12 +1,9 @@
 from rest_framework import serializers
-from .models import ClubBlogLike, UserBlogLike
+from .models import BlogLike
 
-class ClubBlogLikeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ClubBlogLike
-        fields = "__all__"
 
-class UserBlogLikeSerializer(serializers.ModelSerializer):
+class BlogLikeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserBlogLike
-        fields = "__all__"
+        model = BlogLike
+        fields = ['blog', 'user', 'like_time']
+        read_only_fields = ['like_time']

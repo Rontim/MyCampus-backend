@@ -9,8 +9,8 @@ from rest_framework.exceptions import NotFound
 from topic.serializers import TopicSerializer
 
 
-from .models import UserBlog, ClubBlog
-from .serializers import ClubBlogsSerializer, UserBlogSerializer, ClubBlogSerializer, UserBlogsSerializer
+from .models import Blog
+from .serializers import BlogCreateRetrieveSerializer, BlogListingSerializer
 
 from club.models import Club
 from topic.models import Topic
@@ -21,26 +21,46 @@ User = get_user_model()
 
 class CreateBlog(APIView):
 
+    def get_user(self, username):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise NotFound
+        return user
+
     def get_club(self, slug):
         try:
             club = Club.objects.get(slug=slug)
         except Club.DoesNotExist:
             raise NotFound
+
         return club
 
-    def get_topics(self, topics):
-        blog_topics = []
-        for topic in topics:
-            topic = TopicSerializer(data=topic)
-            blog_topics.append(topic)
-
-        return blog_topics
-
     def post(self, request):
-        data = request.data
-        data['author'] = request.user.pk
+        author_type = request.data.get('author_type')
+        title = request.data.get('title')
+        content = request.data.get('content')
+        thumbnail = request.data.get('thumbnail')
+        topics = request.data.get('topics')
+        author = request.data.get('author')
 
-        serializer = UserBlogSerializer(data=data)
+        data = {
+            'title': title,
+            'author_type': author_type,
+            'content': content,
+            'thumbnail': thumbnail,
+            'topics': topics
+        }
+
+        if author_type == 'user':
+            author = self.get_user(username=author)
+            data['author_user'] = author.get_username()
+        if author_type == 'club':
+            data['author_club'] = self.get_club(slug=author).slug
+
+        print(data)
+
+        serializer = BlogCreateRetrieveSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -48,47 +68,23 @@ class CreateBlog(APIView):
 
 class ReadBlog(APIView):
 
-    def get_user_blog(self, slug):
+    def get_blog(self, slug):
         try:
-            blog = UserBlog(slug=slug)
-        except UserBlog.DoesNotExist:
-            return None
-        return blog
-
-    def get_club_blog(self, slug):
-        try:
-            blog = ClubBlog.objects.get(slug=slug)
-        except ClubBlog.DoesNotExist:
-            return None
+            blog = Blog.objects.get(slug=slug)
+        except Blog.DoesNotExist:
+            raise NotFound
         return blog
 
     def get(self, request, slug):
-
-        club_blog, user_blog = self.get_user_blog(
-            slug=slug), self.get_club_blog(slug=slug)
-
-        if club_blog:
-            serializer = ClubBlogSerializer(data=club_blog)
-            serializer.is_valid(raise_exception=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        if user_blog:
-            serializer = UserBlogSerializer(data=user_blog)
-            serializer.is_valid(raise_exception=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        blog = self.get_blog(slug=slug)
+        serializer = BlogCreateRetrieveSerializer(instance=blog)
+        return Response(serializer.data)
 
 
 class BlogsListView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        club_blogs = ClubBlog.objects.all()
-        user_blugs = UserBlog.objects.all()
-
-        clubblogs_serializer = ClubBlogsSerializer(
-            instance=club_blogs, many=True)
-        userblogs_serializer = UserBlogsSerializer(
-            instance=user_blugs, many=True)
-
-        response = userblogs_serializer.data + clubblogs_serializer.data
-        return Response(response)
+        blogs = Blog.objects.all()
+        serializer = BlogListingSerializer(blogs, many=True)
+        return Response(serializer.data)
