@@ -1,6 +1,8 @@
+from ast import List
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
+
 from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import NotFound
 
@@ -8,7 +10,7 @@ from topic.serializers import TopicSerializer
 
 
 from .models import UserBlog, ClubBlog
-from .serializers import UserBlogSerializer, ClubBlogSerializer
+from .serializers import ClubBlogsSerializer, UserBlogSerializer, ClubBlogSerializer, UserBlogsSerializer
 
 from club.models import Club
 from topic.models import Topic
@@ -74,3 +76,19 @@ class ReadBlog(APIView):
             serializer = UserBlogSerializer(data=user_blog)
             serializer.is_valid(raise_exception=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class BlogsListView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        club_blogs = ClubBlog.objects.all()
+        user_blugs = UserBlog.objects.all()
+
+        clubblogs_serializer = ClubBlogsSerializer(
+            instance=club_blogs, many=True)
+        userblogs_serializer = UserBlogsSerializer(
+            instance=user_blugs, many=True)
+
+        response = userblogs_serializer.data + clubblogs_serializer.data
+        return Response(response)
