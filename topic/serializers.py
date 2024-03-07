@@ -12,3 +12,9 @@ class TopicSerializer(serializers.ModelSerializer):
 class UserInterestSerializer(serializers.RelatedField):
     def to_representation(self, value):
         return value.topic_name
+
+
+class BlogTopicSerializer(serializers.SerializerMethodField):
+    class Meta:
+        model = Topic
+        fields = ('topic_name')
