@@ -88,3 +88,33 @@ class BlogsListView(APIView):
         blogs = Blog.objects.all()
         serializer = BlogListingSerializer(blogs, many=True)
         return Response(serializer.data)
+
+
+class BlogsByAuthor(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get_user(self, username):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise NotFound
+        return user
+
+    def get_club(self, slug):
+        try:
+            club = Club.objects.get(slug=slug)
+        except Club.DoesNotExist:
+            raise NotFound
+
+        return club
+
+    def get(self, request, author_type, author):
+        if author_type == 'user':
+            author = self.get_user(username=author)
+            blogs = Blog.objects.filter(author_user=author)
+        if author_type == 'club':
+            author = self.get_club(slug=author)
+            blogs = Blog.objects.filter(author_club=author)
+
+        serializer = BlogListingSerializer(blogs, many=True)
+        return Response(serializer.data)
