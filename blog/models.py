@@ -32,8 +32,14 @@ class Blog(models.Model):
         Club, to_field='slug', on_delete=models.CASCADE, related_name='club_blogs', null=True, blank=True)
     topics = models.ManyToManyField(Topic, related_name='blogs', blank=True)
 
+
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        base_slug = self.title
+        if self.author_type == "user" and self.author_user:
+            base_slug += f' {self.author_user.get_username()}'
+        elif self.author_type == "club" and self.author_club:
+            base_slug += f' {self.author_club.club_name}'
+        self.slug = slugify(base_slug)
         super().save(*args, **kwargs)
 
 
