@@ -35,7 +35,7 @@ class BlogCreateRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = ['id', 'title', 'slug', 'author_type', 'author_user', 'author_club', 'thumbnail', 'content',
-                  'topics', 'updated_at', 'created_at']
+                  'topics', 'updated_at', 'created_at', 'likes']
         read_only_fields = ['id', 'updated_at', 'created_at']
 
 
@@ -49,7 +49,7 @@ class BlogListingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = ['title', 'slug', 'thumbnail',
-                  'topics', 'author_type', 'author']
+                  'topics', 'author_type', 'author', 'likes', 'created_at']
 
     def get_author(self, instance):
         if instance.author_type == 'user':

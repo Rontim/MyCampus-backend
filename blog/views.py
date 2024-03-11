@@ -1,7 +1,10 @@
 from ast import List
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status, permissions, generics
+
+from django.db.models import Q
+from datetime import datetime, timedelta
 
 from rest_framework.permissions import AllowAny
 from rest_framework.exceptions import NotFound
@@ -117,4 +120,91 @@ class BlogsByAuthor(APIView):
             blogs = Blog.objects.filter(author_club=author)
 
         serializer = BlogListingSerializer(blogs, many=True)
+        return Response(serializer.data)
+
+
+# Searching and filtering blogs
+
+class SearchBlogs(APIView):
+    '''
+    Search and filter blogs based on the following parameters:
+    - search
+    - topic
+    - author
+    - period
+    - title
+
+    The search parameter is a string that is used to search for blogs based on the title, content, author, and topics.
+
+    The topic parameter is a string that is used to filter blogs based on the topic.
+
+    The author parameter is a string that is used to filter blogs based on the author.
+
+    The period parameter is a string that is used to filter blogs based on the period. The period 
+    can be one of the following values: today, this_week, this_month, this_year.
+
+    The title parameter is a string that is used to filter blogs based on the title.
+
+    '''
+
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        topic = request.GET.get('topic')
+        author = request.GET.get('author')
+        period = request.GET.get('period')
+        title = request.GET.get('title')
+        search = request.GET.get('q')
+
+        queryset = Blog.objects.all()
+
+        if search:
+            queryset = queryset.filter(
+                Q(title__icontains=search) | Q(content__icontains=search) | Q(topics__topic_name__icontains=search) | Q(author_user__username__icontains=search) | Q(author_club__slug__icontains=search))
+
+        if title:
+            queryset = queryset.filter(title__icontains=title)
+
+        if topic:
+            queryset = queryset.filter(topics__topic_name=topic)
+
+        if author:
+            queryset = queryset.filter(
+                Q(author_user__username=author) | Q(author_club__slug=author))
+
+        if period:
+            if period == 'today':
+                queryset = queryset.filter(
+                    created_at__date=datetime.now().date)
+
+            elif period == 'this_week':
+                today = datetime.now().date()
+                start_date = today - timedelta(days=today.weekday())
+                end_date = start_date + timedelta(days=6)
+                queryset = queryset.filter(
+                    created_at__range=[start_date, end_date])
+            elif period == 'this_month':
+                current_month = datetime.now().month
+                current_year = datetime.now().year
+                queryset = queryset.filter(
+                    created_at__month=current_month, created_at__year=current_year)
+
+            elif period == 'this_year':
+                current_year = datetime.now().year
+                queryset = queryset.filter(created_at__year=current_year)
+
+        serializer = BlogListingSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class TrendingBlogs(APIView):
+    '''
+    Get the trending blogs
+    '''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        blog = Blog.objects.all().order_by('-likes')[:20]
+
+        serializer = BlogListingSerializer(blog, many=True)
         return Response(serializer.data)

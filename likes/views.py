@@ -16,7 +16,7 @@ class Like(APIView):
         try:
             blog = Blog.objects.get(slug=slug)
         except Blog.DoesNotExist:
-            raise NotFound
+            raise NotFound(f'Blog with slug {slug} does not exist')
         return blog
 
     def post(self, request, slug):
@@ -30,6 +30,8 @@ class Like(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
+        blog.add_likes()
+
         return Response({'success': f'You have successfully liked {blog.title}'})
 
 
@@ -37,6 +39,8 @@ class Unlike(APIView):
     def get_like(self, slug, user):
         blog = get_object_or_404(Blog, slug=slug)
         like = get_object_or_404(BlogLike, blog=blog, user=user)
+
+        blog.remove_likes()
 
         return like
 
