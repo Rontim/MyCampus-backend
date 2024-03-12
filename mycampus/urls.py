@@ -6,6 +6,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 
+
 schema_view = get_schema_view(
     openapi.Info(
         title="MyCampus API",
@@ -38,4 +39,6 @@ urlpatterns = [
     path('api/v1/blog/', include('blog.urls')),
     path('api/v1/likes/', include('likes.urls')),
     path('api/v1/comment/', include('comments.urls')),
+    path('api/v1/', include('api.urls')),
+
 ] + static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

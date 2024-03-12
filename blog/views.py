@@ -150,6 +150,7 @@ class SearchBlogs(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
+        print(f'{request.GET}')
         topic = request.GET.get('topic')
         author = request.GET.get('author')
         period = request.GET.get('period')
@@ -157,6 +158,8 @@ class SearchBlogs(APIView):
         search = request.GET.get('q')
 
         queryset = Blog.objects.all()
+
+        print('search:', search)
 
         if search:
             queryset = queryset.filter(
@@ -166,7 +169,7 @@ class SearchBlogs(APIView):
             queryset = queryset.filter(title__icontains=title)
 
         if topic:
-            queryset = queryset.filter(topics__topic_name=topic)
+            queryset = queryset.filter(topics__topic_name__icontains=topic)
 
         if author:
             queryset = queryset.filter(
