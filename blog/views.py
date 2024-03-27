@@ -70,6 +70,7 @@ class CreateBlog(APIView):
 
 
 class ReadBlog(APIView):
+    permission_classes = [permissions.AllowAny]
 
     def get_blog(self, slug):
         try:
